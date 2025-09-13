@@ -1,0 +1,72 @@
+<p>promotion works!</p>
+<div class="container mt-4">
+
+  <h2>{{ editPromotionId ? 'Modifier Promotion' : 'Ajouter Promotion' }}</h2>
+  
+  <form [formGroup]="promotionForm" (ngSubmit)="savePromotion()">
+    <div class="mb-3">
+      <label>Titre</label>
+      <input type="text" class="form-control" formControlName="titre" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea class="form-control" formControlName="description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Type</label>
+      <select class="form-select" formControlName="type">
+        <option value="pourcentage">Pourcentage</option>
+        <option value="montant">Montant</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Valeur</label>
+      <input type="number" class="form-control" formControlName="valeur">
+    </div>
+
+    <div class="mb-3">
+      <label>Date début</label>
+      <input type="date" class="form-control" formControlName="date_debut">
+    </div>
+
+    <div class="mb-3">
+      <label>Date fin</label>
+      <input type="date" class="form-control" formControlName="date_fin">
+    </div>
+
+    <div class="mb-3">
+      <label>Produit concerné</label>
+      <select class="form-select" formControlName="produit_id">
+        <option [ngValue]="null">-- Aucun --</option>
+        <option *ngFor="let p of produits" [ngValue]="p.id">{{ p.nom }}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      {{ editPromotionId ? 'Mettre à jour' : 'Ajouter' }}
+    </button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()">Annuler</button>
+  </form>
+
+  <hr>
+
+  <h2>Promotions existantes</h2>
+  <div class="list-group">
+    <div class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let promo of promotions">
+      <div>
+        <strong>{{ promo.titre }}</strong> 
+        <span *ngIf="promo.produit_id">({{ getProduitName(promo.produit_id) }})</span>
+
+        - {{ promo.type }} : {{ promo.valeur }}
+      </div>
+      <div>
+        <button class="btn btn-sm btn-warning me-2" (click)="startEdit(promo)">✏️ Modifier</button>
+        <button class="btn btn-sm btn-danger" (click)="deletePromotion(promo.id!)">🗑️ Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+</div>

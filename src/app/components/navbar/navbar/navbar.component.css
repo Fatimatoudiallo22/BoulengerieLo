@@ -1,0 +1,29 @@
+.navbar {
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-link {
+  margin-right: 10px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #0f0f0eff;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  color: #212529;
+}
+.btn-warning {
+  transition: background-color 0.2s, color 0.2s;
+}
+body {
+  padding-top: 70px; /* pour éviter que le contenu passe sous la navbar fixe */
+}

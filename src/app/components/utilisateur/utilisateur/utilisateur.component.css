@@ -1,0 +1,80 @@
+/* Styles globaux */
+body {
+  background-color: #f8f9fa; /* Couleur de fond claire */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Titres */
+h2, h4 {
+  color: #343a40; /* Texte sombre */
+}
+
+/* Tableau */
+.table {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.table tbody tr:hover {
+  background-color: #e9f5ff;
+  cursor: pointer;
+}
+
+.table-primary {
+  background-color: #cfe2ff !important; /* Highlight couleur */
+}
+
+/* Formulaire */
+form {
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+input.form-control, select.form-select {
+  transition: all 0.3s ease;
+}
+
+input.form-control:focus, select.form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Boutons */
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn-danger {
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+/* Détails utilisateur */
+div.border.rounded {
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+p {
+  margin-bottom: 0.5rem;
+}

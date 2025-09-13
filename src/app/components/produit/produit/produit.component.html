@@ -1,0 +1,46 @@
+<button class="btn btn-primary mb-3" [routerLink]="['/ajouter-produit']">
+  Ajouter Nouveau Produit
+</button>
+
+<h2>Liste des Produits</h2>
+
+<div class="row mt-3">
+  <div class="col-md-4 mb-4" *ngFor="let produit of produits | paginate: { itemsPerPage: 9, currentPage: page }">
+    <div class="card h-100 shadow-sm">
+      <!-- Image du produit -->
+      <img *ngIf="produit.image" [src]="produit.image" alt="image produit"
+           class="card-img-top" style="height:200px; object-fit:cover;">
+
+      <div class="card-body text-center">
+        <h5 class="card-title">{{ produit.nom }}</h5>
+        <p class="card-text">
+          <span *ngIf="produit.promotion" class="text-decoration-line-through text-muted me-2">
+  {{ produit.prix + (produit.promotion.type === 'pourcentage' ? (produit.prix * produit.promotion.valeur / 100) : produit.promotion.valeur) | currency:'XOF':'symbol':'1.0-0' }}
+</span>
+<span class="fw-bold text-danger">
+  {{ produit.promotion ? (produit.prix - (produit.promotion.type === 'pourcentage' ? (produit.prix * produit.promotion.valeur / 100) : produit.promotion.valeur)) : produit.prix | currency:'XOF':'symbol':'1.0-0' }}
+</span>
+        </p>
+        <p class="mb-0">
+          <strong>Stock :</strong> {{ produit.stock }} <br>
+          <strong>Catégorie :</strong> {{ produit.categorie?.nom }} <br>
+          <strong>Statut :</strong> {{ produit.statut }}
+        </p>
+      </div>
+
+      <div class="card-footer text-center">
+        <button class="btn btn-sm btn-warning me-2" (click)="startEdit(produit)">
+          ✏️ Modifier
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="deleteProduit(produit.id!)">
+          🗑️ Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center mt-3">
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>

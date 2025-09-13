@@ -1,0 +1,64 @@
+<button class="btn btn-info mb-3" [routerLink]="['/mes-commandes']">
+  Mon Panier
+</button>
+<!-- Nouveau bouton pour voir toutes les commandes (admin/employé) -->
+
+
+
+<div class="container mt-4">
+  <h2>Produits disponibles</h2>
+  <div class="row">
+  <div class="col-md-4 mb-3" *ngFor="let produit of produits">
+    <div class="card">
+      <img [src]="produit.image" class="card-img-top" alt="{{ produit.nom }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ produit.nom }}</h5>
+        <p class="card-text">Prix: {{ produit.prix }} f</p>
+        <button class="btn btn-primary" (click)="commanderProduit(produit)">Ajouter au Panier</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <hr>
+
+  <!-- Bouton pour afficher/masquer les commandes -->
+  <!-- Bouton pour aller sur la page commandes -->
+
+
+
+  <!-- Liste des commandes, affichée seulement si showCommandes = true -->
+  <div *ngIf="showCommandes">
+  <table class="table table-bordered" *ngIf="commandes.length > 0; else noCommandes">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Total</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let commande of commandes | paginate: { itemsPerPage: 5, currentPage: page }">
+        <td>{{ commande.id }}</td>
+        <td>{{ commande.prix_total }} f</td>
+        <td>{{ commande.statut }}</td>
+        <td>
+          <button class="btn btn-success btn-sm" (click)="payerCommande(commande)">Payer</button>
+          <button class="btn btn-danger btn-sm" (click)="supprimerCommande(commande)">Supprimer</button>
+          <button *ngIf="commande.statut === 'livree'" class="btn btn-warning btn-sm" (click)="telechargerFacture(commande.id!)">
+            Télécharger Facture
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination commandes -->
+  <div class="d-flex justify-content-center mt-3">
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+
+  <ng-template #noCommandes>
+    <p>Vous n'avez aucune commande pour le moment.</p>
+  </ng-template>
+</div>

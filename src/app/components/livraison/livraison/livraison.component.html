@@ -1,0 +1,68 @@
+<div class="container mt-4">
+  <h2>📦 Gestion des livraisons</h2>
+
+  <!-- Liste des livraisons -->
+  <table class="table table-striped table-bordered mt-3" *ngIf="livraisons.length > 0; else noLivraison">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Commande</th>
+        <th>client</th>
+        <th>Adresse</th>
+        
+        <th>Date prevu</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let livraison of livraisons">
+        <td>{{ livraison.id }}</td>
+        <td>{{ livraison.commande_id }}</td>
+        <td>{{livraison.employe_id}}</td>
+        <td>{{ livraison.adresse_livraison }}</td>
+        
+        <td>{{ livraison.date_prevue }}</td>
+        
+        <td>
+          <span class="badge"
+                [ngClass]="{
+                  'bg-warning': livraison.statut === 'en_preparation',
+                  'bg-info': livraison.statut === 'en_livraison',
+                  'bg-success': livraison.statut === 'livree'
+                  
+                }">
+               
+            {{ livraison.statut }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-primary me-2" (click)="selectLivraison(livraison)">Détails</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteLivraison(livraison.id!)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Si aucune livraison -->
+  <ng-template #noLivraison>
+    <p class="text-muted mt-3">Aucune livraison disponible pour le moment.</p>
+  </ng-template>
+
+  <!-- Détails d'une livraison -->
+  <div *ngIf="selectedLivraison" class="card mt-4">
+    <div class="card-header bg-primary text-white">
+      <h5>Détails de la livraison #{{ selectedLivraison.id }}</h5>
+    </div>
+    <div class="card-body">
+      <p><strong>Commande associée :</strong> {{ selectedLivraison.commande_id }}</p>
+      <p><strong>Adresse :</strong> {{ selectedLivraison.adresse_livraison}}</p>
+      <p><strong>Date :</strong> {{ selectedLivraison.date_livree }}</p>
+      <p><strong>Date prevu :</strong> {{ selectedLivraison.date_prevue }}</p>
+      <p><strong>Statut :</strong> {{ selectedLivraison.statut }}</p>
+    </div>
+    <div class="card-footer text-end">
+      <button class="btn btn-secondary" (click)="selectedLivraison = undefined">Fermer</button>
+    </div>
+  </div>
+</div>

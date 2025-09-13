@@ -1,0 +1,63 @@
+/* Container principal */
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Cartes produits */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Images des produits */
+.card-img-top {
+  width: 100%;
+  height: 200px; /* hauteur fixe pour uniformité */
+  object-fit: cover; /* redimensionne et recadre l'image */
+}
+
+/* Titres et textes */
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Boutons commander */
+.btn-primary {
+  width: 100%;
+  font-weight: 500;
+}
+
+/* Bouton voir/masquer commandes */
+.btn-info {
+  width: 200px;
+}
+
+/* Table commandes */
+.table {
+  margin-top: 1rem;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}

@@ -1,0 +1,23 @@
+<h2>Liste des promotions</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Valeur</th>
+      <th>Produit</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let promo of promotions">
+      <td>{{ promo.titre }}</td>
+      <td>{{ promo.description }}</td>
+      <td>{{ promo.type }}</td>
+      <td>{{ promo.valeur }}</td>
+      <td>{{ getProduitName(promo.produit_id) }}</td>
+     
+    </tr>
+  </tbody>
+</table>

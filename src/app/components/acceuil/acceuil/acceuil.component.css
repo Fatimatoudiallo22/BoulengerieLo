@@ -1,0 +1,11 @@
+.card img {
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}

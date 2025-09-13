@@ -1,0 +1,62 @@
+<div class="container mt-4">
+
+  <!-- ===== Formulaire Produit ===== -->
+  <h2>{{ editProduitId ? 'Modifier Produit' : 'Ajouter Produit' }}</h2>
+  <form (ngSubmit)="editProduitId ? updateProduit() : addProduit()">
+
+    <div class="mb-3">
+      <label class="form-label">Nom</label>
+      <input type="text" class="form-control" [(ngModel)]="newProduit.nom" name="nom" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Prix</label>
+      <input type="number" class="form-control" [(ngModel)]="newProduit.prix" name="prix" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Stock</label>
+      <input type="number" class="form-control" [(ngModel)]="newProduit.stock" name="stock" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea class="form-control" [(ngModel)]="newProduit.description" name="description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Allergènes</label>
+      <input type="text" class="form-control" [(ngModel)]="newProduit.allergenes" name="allergenes">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Statut</label>
+      <select class="form-select" [(ngModel)]="newProduit.statut" name="statut">
+        <option value="disponible">Disponible</option>
+        <option value="indisponible">Indisponible</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Catégorie</label>
+      <select class="form-select" [(ngModel)]="newProduit.categorie_id" name="categorie_id">
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.nom }}</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Image</label>
+      <input type="file" class="form-control" (change)="onFileSelected($event)">
+      <div *ngIf="newProduit.image" class="mt-2">
+        <p>Aperçu :</p>
+        <img [src]="newProduit.image" alt="image produit" class="img-thumbnail" style="max-width: 200px;">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      {{ editProduitId ? 'Mettre à jour' : 'Ajouter' }}
+    </button>
+    <button type="button" class="btn btn-secondary ms-2" (click)="resetForm()">Annuler</button>
+  </form>
+
+  <hr class="my-4">

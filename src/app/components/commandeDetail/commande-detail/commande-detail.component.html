@@ -1,0 +1,72 @@
+<div class="container mt-4">
+  <h2>Mes commandes</h2>
+  <table class="table table-bordered" *ngIf="commandes.length > 0; else noCommandes">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Total</th>
+        <th>Statut</th>
+        <th>Produit</th>
+        
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let commande of commandes">
+        <td>{{ commande.id }}</td>
+        <td>{{ commande.prix_total }} f</td>
+        <td>{{ commande.statut }}</td>
+       <td>
+    <table class="table table-sm">
+      <tr *ngFor="let item of commande.details">
+        <td>{{ item.quantite }}</td>
+        <td>{{ item.produit?.nom }}</td>
+        
+        <td>{{ item.prix_unitaire }} f</td>
+      </tr>
+    </table>
+  </td>
+  <td>{{ commande.prix_total }} f</td>
+        <td>
+           <button class="btn btn-primary btn-sm" (click)="validerCommande(commande)">Valider</button>
+          <button class="btn btn-danger btn-sm" (click)="supprimerCommande(commande)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="alert alert-info mt-3">
+  💰 Total de vos commandes : <strong>{{ totalClient }} f</strong>
+</div>
+  <ng-template #noCommandes>
+    <p>Vous n'avez aucune commande pour le moment.</p>
+  </ng-template>
+  <!-- Formulaire de livraison -->
+<div *ngIf="commandeSelectionnee" class="card mt-4">
+  <div class="card-header bg-info text-white">
+    <h5>Nouvelle livraison pour la commande #{{ commandeSelectionnee.id }}</h5>
+  </div>
+  <div class="card-body">
+    <form (ngSubmit)="confirmerLivraison()">
+      <div class="mb-3">
+        <label for="adresse" class="form-label">Adresse</label>
+        <input id="adresse" [(ngModel)]="livraisonForm.adresse" name="adresse" class="form-control" required>
+      </div>
+     <div class="mb-3">
+        <label for="date_prevue" class="form-label">Date et heure de livraison</label>
+        <input 
+          id="date_prevue" 
+          type="datetime-local" 
+          [(ngModel)]="livraisonForm.date_prevue" 
+          name="date_prevue" 
+          class="form-control" 
+          required>
+      </div>
+      <div class="text-end">
+        <button type="submit" class="btn btn-success">Confirmer</button>
+        <button type="button" class="btn btn-secondary" (click)="annulerLivraison()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>

@@ -1,0 +1,49 @@
+<!-- ===== Hero Section ===== -->
+<section class="hero bg-light py-5 text-center">
+  <div class="container">
+    <h1 class="display-4 fw-bold text-brown">Bienvenue à notre Boulangerie  🥖</h1>
+    <p class="lead text-muted">Découvrez nos pains, viennoiseries et pâtisseries faits avec amour ❤️</p>
+<button class="btn btn-warning btn-lg mt-3" (click)="gotoCommandes()">
+  Voir nos produits
+</button> 
+ </div>
+</section>
+
+<!-- ===== Produits ===== -->
+<div class="container mt-5" id="produits">
+  <h2 class="text-center mb-5 fw-bold">Nos Délices du Jour 🍰</h2>
+
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let produit of produits">
+      <div class="card h-100 shadow-lg border-0 rounded-3">
+        <img [src]="produit.image" 
+             class="card-img-top rounded-top" 
+             
+             style="height: 300px; object-fit: cover; width: 100%;">
+
+
+        <div class="card-body text-center">
+          <h5 class="card-title fw-bold text-brown">{{ produit.nom }}</h5>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Section Promotion ===== -->
+<section class="promo bg-warning text-dark text-center py-5 mt-5">
+  <div class="container">
+    <h2 class="fw-bold">🎉 Offre Spéciale du Mois 🎉</h2>
+    <p class="lead">Un croissant offert pour chaque commande supérieure à 3000f</p>
+    <button class="btn btn-warning btn-lg mt-3" (click)="gotoListpromotions()">
+      nos promotions
+</button>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="bg-dark text-light text-center py-4 mt-5">
+  <p class="mb-0">🍞 Boulangerie E-Commerce - Tous droits réservés © 2025</p>
+  <small>Développé avec ❤️ et Angular</small>
+</footer>

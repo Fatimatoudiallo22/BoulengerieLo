@@ -1,0 +1,55 @@
+<!-- Navbar Admin -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-top px-3">
+  <a class="navbar-brand" (click)="gotoDashboard()" style="cursor: pointer;">
+    🛒 Sen Boulangerie
+  </a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav me-auto">
+
+  <!-- Menu employé -->
+  <li class="nav-item" *ngIf="isEmploye || isClient">
+    <a class="nav-link" (click)="gotoMessagerie()" style="cursor: pointer;">Messagerie</a>
+  </li>
+    <li class="nav-item" *ngIf="isClient || isEmploye">
+    <a class="nav-link" (click)="gotoCommandes()" style="cursor: pointer;">Commandes</a>
+  </li>
+    <li class="nav-item" *ngIf="isClient || isEmploye">
+      <a class="nav-link" (click)="gotoPromoListe()" style="cursor: pointer;">Promotions</a>
+    </li>
+  <!-- Menu admin -->
+  <li class="nav-item" *ngIf="isAdmin">
+    <a class="nav-link" (click)="gotoProduits()" style="cursor: pointer;">Produits</a>
+  </li>
+  <li class="nav-item" *ngIf="isAdmin">
+    <a class="nav-link" (click)="gotoCategories()" style="cursor: pointer;">Catégories</a>
+  </li>
+  <li class="nav-item" *ngIf="isAdmin">
+    <a class="nav-link" (click)="gotoUtilisateurs()" style="cursor: pointer;">Admins</a>
+  </li>
+  
+  <li class="nav-item" *ngIf="isAdmin || isEmploye">
+    <a class="nav-link" (click)="gotoLivraisons()" style="cursor: pointer;">Livraisons</a>
+  </li>
+  <li class="nav-item" *ngIf="isAdmin">
+    <a class="nav-link" (click)="gotoPromotions()" style="cursor: pointer;">promotion</a>
+  </li>
+
+   
+
+  <!-- Menu client et admin -->
+  <li class="nav-item" *ngIf="isClient || isAdmin">
+    <a class="nav-link" (click)="gotoCommandes()" style="cursor: pointer;">Commandes</a>
+  </li>
+   <li class="nav-item" *ngIf="isClient">
+    <a class="nav-link" (click)="gotoPromoListe()" style="cursor: pointer;">Promotions</a>
+
+</ul>
+
+    <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+    </div>
+</nav>
+

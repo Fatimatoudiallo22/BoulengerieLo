@@ -1,0 +1,40 @@
+<div class="container mt-4">
+
+  <h4>💬 Messagerie</h4>
+
+  <!-- Boîte de chat -->
+  <div class="chat-box border rounded p-3 mb-3" style="height: 400px; overflow-y: auto;">
+    <div *ngIf="messages.length === 0" class="text-center text-muted mt-5">
+      Aucun message pour l'instant
+    </div>
+
+    <div *ngFor="let msg of messages">
+      <div [ngClass]="{'text-end': msg.expediteur_id === userId}">
+        <!-- Badge expéditeur -->
+        <span class="badge bg-primary" *ngIf="msg.expediteur_id === userId">Moi</span>
+        <span class="badge bg-secondary" *ngIf="msg.expediteur_id !== userId">{{ msg.expediteur?.nom || 'Service' }}</span>
+
+        <!-- Message -->
+        <p class="d-inline-block px-3 py-2 rounded"
+           [ngClass]="{'bg-success text-white': msg.expediteur_id === userId, 'bg-light': msg.expediteur_id !== userId}">
+          {{ msg.message }}
+        </p>
+
+        <!-- Date -->
+        <small class="d-block text-muted">{{ msg.created_at | date:'short' }}</small>
+      </div>
+      <hr>
+    </div>
+  </div>
+
+  <!-- Formulaire d'envoi -->
+  <form (ngSubmit)="sendMessage()" class="d-flex">
+  <input [(ngModel)]="newMessage"
+         name="newMessage"
+         class="form-control me-2"
+         placeholder="Écrire un message..."
+         required>
+  <button type="submit" class="btn btn-primary">Envoyer</button>
+</form>
+
+</div>
