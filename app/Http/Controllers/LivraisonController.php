@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Mail\CommandePayeeMail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Commande;
 use App\Models\Livraison;
 use Illuminate\Http\Request;
 
@@ -25,37 +27,93 @@ class LivraisonController extends Controller
     }
 
     // Crée une nouvelle livraison
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'commande_id' => 'required|exists:commandes,id',
-            'adresse'     => 'required|string|max:255',
-            'date'        => 'required|date',
-            'statut'      => 'required|in:en préparation,en cours,livrée',
-        ]);
+   public function store(Request $request)
+{
+    $data = $request->validate([
+        'commande_id'      => 'required|exists:commandes,id',
+        'adresse_livraison'=> 'nullable|string|max:255',
+        'date_prevue'      => 'nullable|date',
+        'statut'           => 'required|in:en_preparation,en_livraison,livree,annulee',
+    ]);
 
-        return Livraison::create($data);
-    }
+    $livraison = Livraison::create($data);
+
+    return response()->json($livraison, 201);
+}
 
     // Met à jour une livraison
     public function update(Request $request, $id)
-    {
-        $livraison = Livraison::findOrFail($id);
+{
+    $livraison = Livraison::findOrFail($id);
 
-        $data = $request->validate([
-            'adresse' => 'string|max:255',
-            'date'    => 'date',
-            'statut'  => 'in:en préparation,en cours,livrée',
-        ]);
+    $data = $request->validate([
+        'adresse_livraison'=> 'nullable|string|max:255',
+        'date_prevue'      => 'nullable|date',
+        'date_livree'      => 'nullable|date',
+        'statut'           => 'in:en_preparation,en_livraison,livree,annulee',
+    ]);
 
-        $livraison->update($data);
+    $livraison->update($data);
 
-        return $livraison;
-    }
+    return response()->json($livraison, 200);
+}
 
     // Supprime une livraison
     public function destroy($id)
     {
         return Livraison::destroy($id);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function confirmerLivraison(Request $request, $commandeId)
+{
+    $commande = Commande::with('utilisateur', 'details.produit')->findOrFail($commandeId);
+
+    $data = $request->validate([
+        'adresse_livraison' => 'required|string|max:255',
+        'date_prevue' => 'required|date'
+    ]);
+
+    // Créer la livraison
+    $livraison = $commande->livraison()->create([
+        'adresse_livraison' => $data['adresse_livraison'],
+        'date_prevue' => $data['date_prevue'],
+        'statut' => 'en_preparation',
+        'employe_id' => null // ou assigner un livreur
+    ]);
+
+    // Marquer la commande comme payée
+    $commande->statut = 'livree';
+    $commande->save();
+
+    // Envoyer email de confirmation
+    Mail::to($commande->utilisateur->email)->send(new CommandePayeeMail($commande));
+
+    return response()->json([
+        'message' => 'Livraison créée, commande payée et mail envoyé',
+        'livraison' => $livraison
+    ]);
 }
+
+}
+
+

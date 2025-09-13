@@ -9,7 +9,7 @@ class commande extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    public function client()
+    public function utilisateur()
     {
     return $this->belongsTo(Utilisateur::class, 'utilisateur_id');
     }
@@ -22,4 +22,8 @@ class commande extends Model
     {
     return $this->hasOne(Facture::class);
     }
+    public function withDetails()
+{
+    return $this->details()->with('produit');
+}
 }

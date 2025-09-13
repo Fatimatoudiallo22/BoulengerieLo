@@ -33,7 +33,16 @@ class PromotionController extends Controller
             'titre' => 'required|string|max:255',
             'description' => 'nullable|string',
             'type' => 'required|in:pourcentage,montant',
-            'valeur' => 'required|numeric|min:0',
+           'valeur' => [
+    'required',
+    'numeric',
+    function ($attribute, $value, $fail) use ($request) {
+        if ($request->type === 'pourcentage' && $value < 0) {
+            $fail($attribute.' doit être positif pour les promotions en pourcentage.');
+        }
+    },
+],
+
             'date_debut' => 'nullable|date',
             'date_fin' => 'nullable|date|after_or_equal:date_debut',
             'produit_id' => 'nullable|exists:produits,id',
@@ -68,7 +77,7 @@ class PromotionController extends Controller
             'titre' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
             'type' => 'sometimes|required|in:pourcentage,montant',
-            'valeur' => 'sometimes|required|numeric|min:0',
+           'valeur' => 'sometimes|required|numeric',
             'date_debut' => 'nullable|date',
             'date_fin' => 'nullable|date|after_or_equal:date_debut',
             'produit_id' => 'nullable|exists:produits,id',

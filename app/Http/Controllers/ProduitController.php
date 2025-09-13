@@ -33,14 +33,24 @@ class ProduitController extends Controller
         $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
+            'prix' => 'required|numeric',
             'stock' => 'required|integer|min:0',
-            'photo_url' => 'nullable|string',
+            'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'categorie_id' => 'nullable|integer|exists:categories,id',
             'allergenes' => 'nullable|string'
         ]);
+              $data = $request->all();
 
-        $produit = Produit::create($request->all());
+    // Upload de l'image si présente
+   $data = $request->except('image');
+
+if ($request->hasFile('image')) {
+    $imageName = time().'_'.$request->file('image')->getClientOriginalName();
+    $request->file('image')->move(public_path('images'), $imageName);
+    $data['image'] = url('images/'.$imageName);
+}
+
+$produit = Produit::create($data); // store
 
         return response()->json([
             'message' => 'Produit ajouté avec succès',
@@ -56,15 +66,23 @@ class ProduitController extends Controller
         $request->validate([
             'nom' => 'sometimes|string|max:255',
             'description' => 'nullable|string',
-            'prix' => 'sometimes|numeric|min:0',
+            'prix' => 'sometimes|numeric',
             'stock' => 'sometimes|integer|min:0',
-            'photo_url' => 'nullable|string',
+            'image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'categorie_id' => 'nullable|integer|exists:categories,id',
             'allergenes' => 'nullable|string'
         ]);
 
         $produit->update($request->all());
+        $data = $request->except('image');
 
+if ($request->hasFile('image')) {
+    $imageName = time().'_'.$request->file('image')->getClientOriginalName();
+    $request->file('image')->move(public_path('images'), $imageName);
+    $data['image'] = url('images/'.$imageName);
+}
+
+$produit->update($data); // update
         return response()->json([
             'message' => 'Produit modifié avec succès',
             'produit' => $produit

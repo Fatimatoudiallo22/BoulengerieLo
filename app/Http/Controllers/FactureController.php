@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CommandePayeeMail;
+use Illuminate\Support\Facades\Mail;    
 use App\Models\Facture;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Http\Request;
 
 class FactureController extends Controller
@@ -30,8 +35,8 @@ class FactureController extends Controller
     {
         $data = $request->validate([
             'commande_id' => 'required|exists:commandes,id',
-            'montant'     => 'required|numeric|min:0',
-            'date'        => 'required|date',
+            'montant' => 'numeric|min:0',
+            'date_emission'    => 'date',
         ]);
 
         return Facture::create($data);
@@ -43,8 +48,9 @@ class FactureController extends Controller
         $facture = Facture::findOrFail($id);
 
         $data = $request->validate([
+            'commande_id' => 'required|exists:commandes,id',
             'montant' => 'numeric|min:0',
-            'date'    => 'date',
+            'date_emission'    => 'date',
         ]);
 
         $facture->update($data);
@@ -57,4 +63,20 @@ class FactureController extends Controller
     {
         return Facture::destroy($id);
     }
+
+    public function download($id)
+{
+    $facture = Facture::with('commande.utilisateur', 'commande.details.produit')->findOrFail($id);
+
+    if (!$facture->pdf_path || !Storage::disk('public')->exists($facture->pdf_path)) {
+        // Générer le PDF si inexistant
+        $pdf = Pdf::loadView('factures.facture_pdf', compact('facture'));
+        $pdfPath = 'factures/facture_' . $facture->id . '.pdf';
+        $pdf->save(storage_path('app/public/' . $pdfPath));
+        $facture->pdf_path = $pdfPath;
+        $facture->save();
+    }
+
+    return response()->download(storage_path('app/public/' . $facture->pdf_path));
+}
 }

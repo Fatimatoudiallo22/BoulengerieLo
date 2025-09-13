@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Models\messagerie;
 use App\Models\Utilisateur;
@@ -56,4 +56,67 @@ class MessagerieController extends Controller
 
         return response()->json(['message' => 'Message marqué comme lu']);
     }
+    /*
+    public function conversation($userId)
+{
+    $authId = auth()->id();
+
+    $messages = Messagerie::where(function ($q) use ($authId, $userId) {
+            $q->where('expediteur_id', $authId)->where('destinataire_id', $userId);
+        })
+        ->orWhere(function ($q) use ($authId, $userId) {
+            $q->where('expediteur_id', $userId)->where('destinataire_id', $authId);
+        })
+        ->with(['expediteur', 'destinataire'])
+        ->orderBy('created_at', 'asc')
+        ->get();
+
+    return response()->json($messages);
 }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+    // Afficher la conversation entre l’utilisateur connecté et un autre
+    public function show($id)
+    {
+        $userId = auth()->id(); // id de l’utilisateur connecté
+
+        $messages = messagerie::where(function($q) use ($id, $userId) {
+                $q->where('expediteur_id', $userId)
+                  ->where('destinataire_id', $id);
+            })
+            ->orWhere(function($q) use ($id, $userId) {
+                $q->where('expediteur_id', $id)
+                  ->where('destinataire_id', $userId);
+            })
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return response()->json($messages);
+    }
+    /*
+    // Envoyer un message
+    public function store(Request $request)
+    {
+        $msg = Message::create([
+            'expediteur_id'   => auth()->id(),
+            'destinataire_id' => $request->destinataire_id,
+            'message'         => $request->message,
+        ]);
+
+        return response()->json($msg, 201);
+    }
+    */
+
+}
+

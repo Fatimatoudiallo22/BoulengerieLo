@@ -19,7 +19,7 @@ return new class extends Migration
     $table->integer('stock')->default(0);
     $table->string('image')->nullable();
     $table->text('allergenes')->nullable();
-    $table->foreignId('categorie_id');
+    $table->foreignId('categorie_id')->constrained()->onDelete('cascade');
     $table->enum('statut', ['disponible', 'indisponible'])->default('disponible');
     $table->timestamps();
 });

@@ -28,7 +28,7 @@ return new class extends Migration
 
             // Peut s'appliquer à un produit spécifique ou un pack
             $table->foreignId('produit_id')->nullable()->constrained('produits')->onDelete('cascade');
-            $table->foreignId('pack_id')->nullable()->constrained('packs')->onDelete('cascade');
+           // $table->foreignId('pack_id')->nullable()->constrained('packs')->onDelete('cascade');
 
 
             $table->timestamps();
